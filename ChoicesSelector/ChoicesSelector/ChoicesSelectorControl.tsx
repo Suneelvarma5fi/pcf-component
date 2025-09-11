@@ -3,34 +3,38 @@ import { IChoicesOption, IChoicesSelectorProps } from "./IChoicesSelectorProps";
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-
   makeStyles,
   IdPrefixProvider,
   FluentProvider,
   Input,
+  webLightTheme,
 } from "@fluentui/react-components";
-import { Tag } from '@fluentui/react-tags';
-import {   
-  
-  TagPicker,
-  TagPickerList,
-  TagPickerInput,
-  TagPickerControl,
-  TagPickerProps,
-  TagPickerOption,
-  TagPickerGroup, } from '@fluentui/react-tag-picker';
+import { Tag, TagPicker, TagPickerControl, TagPickerGroup, TagPickerInput, TagPickerList, TagPickerOption, TagPickerProps } from '@fluentui/react-components'
 
 const _useStyles = makeStyles({
     root: {
         width: "100%",
-    }
+    
+},
+  tagPickerListContainer: {
+    backgroundColor: "white",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    padding: "4px",
+    marginTop: "4px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+    zIndex: 1000,
+    position: "absolute",
+  },
+
+
 });
 
 export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorProps> = (props) => {
    
     const [placeholder, setPlaceholder] = React.useState<string>("---");
     const [selectedOptions, setSelectedOptions] = React.useState<IChoicesOption[]>(props.selectedValues || []);
-
+    const [isDropdownOpen, setIsDropdownOpen] = React.useState<boolean>(false); 
     const styles = _useStyles();
     const myTheme = props.isDisabled ? {
         ...props.theme,
@@ -41,28 +45,16 @@ export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorPr
         backgroundColor: props.theme?.colorNeutralBackground3,
         }
         :
-        props.theme;
-
-
+        {
+          ...webLightTheme
+        };
+        
   const onOptionSelect: TagPickerProps["onOptionSelect"] = (e, data) => {
 
     setSelectedOptions((prevSelectedOptions) => {
-      // const newSelectedOptions = [...prevSelectedOptions];
-      // const optionIndex = newSelectedOptions.findIndex(
-      //   (selectedOption) => selectedOption.value.toString() === data.value
-      // );
-
-      // if (optionIndex > -1) {
-      //   // If the option is already selected, remove it
-      //   newSelectedOptions.splice(optionIndex, 1);
-      // } else {
-      //   // If the option is not selected, add it
-      //   newSelectedOptions.push({
-      //     text: props.availableOptions.find((option => option.value.toString() === data.value))?.text || "",
-      //     value: parseInt(data.value),
-      //     key : parseInt(data.value)
-      //   });
-      // }
+      if(data.value === "no-options") {
+        return prevSelectedOptions;
+      }
 
       const newSelectedOptions = data.selectedOptions.map((val) => ({
           text: props.availableOptions.find((option => option.value.toString() === val))?.text || "",
@@ -77,11 +69,11 @@ export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorPr
   const tagPickerOptions = props.availableOptions.filter(
     (option) => !selectedOptions.find(so => so.key == option.key)
   );
-  
+
   return (
      <div className={styles.root}>
           <IdPrefixProvider value={"csc_" +  uuidv4()}>
-              <FluentProvider theme={myTheme} className={styles.root}>
+              <FluentProvider theme={myTheme}>
               {props.isDisabled?
               <Input
                   value={props.selectedValues?.map((option) => option.text).join(", ") ?? placeholder}          
@@ -90,16 +82,16 @@ export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorPr
                   readOnly={true}        
                   /> 
               :
-            
+           
                <TagPicker
                 onOptionSelect={onOptionSelect}
                 selectedOptions={selectedOptions.map(option => (option.key))}
                 appearance='filled-darker'
                 size="large"
               >
-                <TagPickerControl> 
+                <TagPickerControl   className={styles.root}>
                   <TagPickerGroup aria-label="Selected Options">
-                    {selectedOptions.map(option => (
+                    {selectedOptions.sort((a, b) => a.text.localeCompare(b.text)).map(option => (
                       <Tag
                         key={option.key}
                         shape="rounded"
@@ -111,9 +103,7 @@ export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorPr
                     ))}
                   </TagPickerGroup>  
                 </TagPickerControl>
-                <TagPickerList 
-                  multiselect={true}               
-                  >
+                <TagPickerList multiselect={true} className={styles.root} >
                   {
                    tagPickerOptions.length > 0 ? ( tagPickerOptions.map(option => (
                       <TagPickerOption
@@ -124,9 +114,8 @@ export const ChoicesSelectorControl : React.FunctionComponent<IChoicesSelectorPr
                         </TagPickerOption>
                     ))):(
                         <TagPickerOption value="no-options">
-                          No options available
+                          {props.context.resources.getString("NoOptionsAvailable")}
                         </TagPickerOption>
-
                     )
                   }
                 </TagPickerList>

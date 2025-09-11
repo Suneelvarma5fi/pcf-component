@@ -1,21 +1,19 @@
 import eslintjs from "@eslint/js";
 import microsoftPowerApps from "@microsoft/eslint-plugin-power-apps";
 import pluginPromise from "eslint-plugin-promise";
-import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
 import typescriptEslint from "typescript-eslint";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ["**/generated"],
+    ignores: ["**/generated/"],
   },
   eslintjs.configs.recommended,
-  ...typescriptEslint.configs.recommendedTypeChecked,
-  ...typescriptEslint.configs.stylisticTypeChecked,
+  ...typescriptEslint.configs.recommended,
+  ...typescriptEslint.configs.stylistic,
   pluginPromise.configs["flat/recommended"],
   microsoftPowerApps.configs.paCheckerHosted,
-  reactPlugin.configs.flat.recommended,
   {
     plugins: {
       "@microsoft/power-apps": microsoftPowerApps,
@@ -36,11 +34,6 @@ export default [
 
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
     },
   },
 ];

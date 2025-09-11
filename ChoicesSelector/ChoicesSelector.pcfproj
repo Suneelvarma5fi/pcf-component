@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <Name>ChoicesSelector</Name>
-    <ProjectGuid>13173a67-8e5c-4de9-ad73-9a28d0229d6c</ProjectGuid>
+    <ProjectGuid>b06275df-9c67-4543-805c-55ceeec44340</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

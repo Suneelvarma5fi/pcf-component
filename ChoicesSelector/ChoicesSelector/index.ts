@@ -1,13 +1,13 @@
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { ChoicesSelectorControl } from "./ChoicesSelectorControl";
 import * as React from "react";
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { IChoicesOption, IChoicesSelectorProps } from "./IChoicesSelectorProps";
+import { ChoicesSelectorControl } from "./ChoicesSelectorControl";
+import { createRoot } from 'react-dom/client';
 
-export class ChoicesSelector implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class ChoicesSelector implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
     private selectedValues: IChoicesOption[];
-    private isDesignMode: boolean = false;
-    private isBuilt: boolean = false;
+    private container: HTMLDivElement;
 
     /**
      * Empty constructor.
@@ -22,40 +22,39 @@ export class ChoicesSelector implements ComponentFramework.ReactControl<IInputs,
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
      * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
      * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
+     * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
      */
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
-        state: ComponentFramework.Dictionary
+        state: ComponentFramework.Dictionary,
+        container: HTMLDivElement
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
-        
+        this.container = container;
     }
 
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     * @returns ReactElement root react element for the control
      */
-    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        
-        const props: IChoicesSelectorProps =  {
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
+         const props: IChoicesSelectorProps =  {
                 selectedValues:context.parameters.choicesAttribute.raw ? context.parameters.choicesAttribute.raw?.map(value => ({text: context.parameters.choicesAttribute.attributes?.Options.find(o => o.Value == value)?.Label || "", value: value, key : value.toString()})) : [],
                 availableOptions:  context.parameters.choicesAttribute.attributes?.Options.map(option =>({text: option.Label, value: option.Value, key: option.Value.toString()})) || [],
-                isDisabled: false,
+                isDisabled: context.mode.isControlDisabled,
                 onChange: this.onValuesChange,
-                theme: context.fluentDesignLanguage?.tokenTheme
+                theme: context.fluentDesignLanguage?.tokenTheme,
+                context: context
              };
-       
-        return React.createElement(
-            ChoicesSelectorControl, props
-        );
-    }
 
+            const root = createRoot(this.container!);
+            root.render(React.createElement(ChoicesSelectorControl, props));
+    }
+    
     private onValuesChange = (selectedOptions?: IChoicesOption[]) => {
         this.selectedValues = selectedOptions || [];
         this.notifyOutputChanged();
-        
     };
 
     /**
@@ -63,7 +62,7 @@ export class ChoicesSelector implements ComponentFramework.ReactControl<IInputs,
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { 
+         return { 
             choicesAttribute: this.selectedValues.map(option => option.value)
         };
     }
@@ -73,6 +72,7 @@ export class ChoicesSelector implements ComponentFramework.ReactControl<IInputs,
      * i.e. cancelling any pending remote calls, removing listeners, etc.
      */
     public destroy(): void {
-        // Add code to cleanup control if necessary
+        const root = createRoot(this.container!);
+        root.unmount();
     }
 }

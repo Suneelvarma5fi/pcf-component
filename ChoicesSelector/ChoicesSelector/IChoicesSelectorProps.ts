@@ -1,4 +1,5 @@
 import { Theme } from "@fluentui/react-components";
+import { IInputs } from "./generated/ManifestTypes";
 
 export interface IChoicesOption{
     text: string;
@@ -11,5 +12,6 @@ export interface IChoicesSelectorProps {
     availableOptions: IChoicesOption[];
     isDisabled: boolean;
     onChange: (selectedOptions?: IChoicesOption[]) => void;
-    theme?: Theme
+    theme?: Theme,
+    context: ComponentFramework.Context<IInputs>
 }
