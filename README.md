@@ -17,6 +17,8 @@ Controls using PowerApps Components Framework
 
 [Lookup as Dropdown](#lookup-as-dropdown)
 
+[Column Header](#column-header)
+
 ## NN Checkboxes
 
 [Download](https://github.com/MscrmTools/PCF-Controls/releases/)
@@ -259,3 +261,23 @@ This is the list of parameters that can be set on the control
 |**Display Search bar**|Indicates if a search bar must be added on top of the dropdown|||
 |**Favorites**|List of records unique identifiers to show as favorites|||
 |**Number of recent items**|Indicates the number of recent items to display|||
+
+## Column Header
+
+[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
+
+### Purpose
+The purpose of this control is to display a label that looks similar to a section label.
+
+### Samples
+
+<img width="758" height="214" alt="image" src="https://github.com/user-attachments/assets/10d938e9-9131-4af5-aec6-8e0552dbfb82" />
+
+### Configuration
+
+This is the list of parameters that can be set on the control
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**Label**|The label to display|X||
+
