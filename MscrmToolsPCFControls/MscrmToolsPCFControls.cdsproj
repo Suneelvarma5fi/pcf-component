@@ -49,7 +49,9 @@
 	<ProjectReference Include="..\ReactNotifier\ReactNotifier.pcfproj" />
 	<ProjectReference Include="..\LinearSliderWithSteps\LinearSliderWithSteps.pcfproj" />
 	<ProjectReference Include="..\YearDropdown\YearDropdown.pcfproj" />
-  <ProjectReference Include="..\LookupToPicklist\LookupToPicklist.pcfproj" />
+	<ProjectReference Include="..\LookupToPicklist\LookupToPicklist.pcfproj" />
+    <!-- <ProjectReference Include="..\ChoicesSelector\ChoicesSelector.pcfproj" /> -->
+	<ProjectReference Include="..\ColumnHeader\ColumnHeader.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
