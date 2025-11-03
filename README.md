@@ -279,5 +279,6 @@ This is the list of parameters that can be set on the control
 
 |Parameter|Description|Required|Bound to an attribute|
 |---------|-----------|:----:|:---:|
-|**Label**|The label to display|X||
+|**Label**|The label to display (can be a string or a json object : {"1033":"English header", "1036":"French header"})|X||
+
 
