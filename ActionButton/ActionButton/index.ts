@@ -67,7 +67,7 @@ export class ActionButton
     let props = {} as IButtonControlProps;
     if (this.isDesignMode) {
 		props = {
-			text: "Sample text",
+			text: "Send to DAS",
 			disabled: false,
 			hoverBackgroundColor: "#106EBE",
 			hoverBorderColor: "#106EBE",
@@ -76,7 +76,7 @@ export class ActionButton
 			checkedBorderColor: "#0078d4",
 			checkedColor: "#FFFFFF",
 			iconName: null,
-			toolTip: "Sample tooltip text",
+			toolTip: "Send to DAS",
 			onClick: () => {
 			  this.notifyOutputChanged();
 			},
