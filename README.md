@@ -1,284 +1,98 @@
-# PCF-Controls
-Controls using PowerApps Components Framework
+# PCF-Controls — Action Button ("Send to DAS")
 
-[NN Checkboxes](#nn-checkboxes)
+A PowerApps Component Framework (PCF) control that renders a customizable action button on model-driven app forms.
 
-[Custom Switch](#custom-switch)
+## Purpose
 
-[Date as checkbox](#date-as-checkbox)
+This control displays a **"Send to DAS"** button on a form. When clicked, it writes a value to the bound field (text or datetime), which triggers an onChange event where custom business logic can be executed (e.g., triggering a Power Automate flow to send an email).
 
-[Simple Notification](#simple-notification)
+## How It Works
 
-[Action Button](#action-button)
+1. The button is bound to a **text or datetime column** on your table
+2. On click, it writes either the button label or a custom ID to that field
+3. An **onChange event** on the bound field detects the value change and executes your logic
+4. The field value is then cleared to allow subsequent clicks
 
-[Linear Slider with steps](#linear-slider-with-steps)
+## Setup
 
-[Year Dropdown](#year-dropdown)
+### Prerequisites
+- Node.js and npm
+- .NET SDK
+- Power Platform CLI (`pac`)
 
-[Lookup as Dropdown](#lookup-as-dropdown)
+### Build
 
-[Column Header](#column-header)
-
-## NN Checkboxes
-
-[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
-
-### Purpose
-The purpose of this control is to allow user to associate/disassociate records for a many-to-many relationship displaying all possible records as checkboxes or toggle switches
-
-![Vidéo](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/video.gif?raw=true)
-
-### Samples
-||Checkboxes|Switches|
-|--|--|--|
-|No color / Not grouped|![Sample2](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample2.png?raw=true)|![Sample1](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample1.png?raw=true)|
-|Records Color / Not grouped|![Sample5](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample5.png?raw=true)|![Sample6](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample6.png?raw=true)|
-|No color / Grouped|![Sample3](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample3.png?raw=true)|![Sample9](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample9.png?raw=true)|
-|Records color / Grouped |![Sample4](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample4.png?raw=true)|![Sample7](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample7.png?raw=true)|
-|Group color / Grouped|![Sample10](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample10.png?raw=true)|![Sample8](https://github.com/MscrmTools/PCF-Controls/blob/master/NNCheckboxes/Screenshots/Sample8.png?raw=true)|
-
-### Configuration
-
-This is the list of parameters that can be set on the control
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**DataSet/Label**|Attribute to use as label for the checkbox|X|X|
-|**DataSet/Background color**|Attribute to use as background color||X|
-|**DataSet/Color**|Attribute to use as forecolor||X|
-|**DataSet/Group by**|Attribute used to group records. *If used, this attribute must be the first attribute used to sort the view used by this control*||X|
-|**DataSet/Filter attribute**|Filter attribute for related records. *If used, this attribute must be of the same type as the control parameter Filter attribute *||X|
-|**DataSet/Tooltip**|Attribute used to display a tooltip on the checkbox or the switch. *If used, this attribute must be present on the view used to display records*||X|
-|**Filter attribute**|Filter attribute for related records. *If used, this attribute must be of the same type as the control parameter DataSet/Filter attribute *||X|
-|**Relationship**|Schema name of the relationship. *required only if multiple many-to-many relationship exist for both related entities*|?||
-|**Columns**|Number of columns to display checkboxes|X||
-|**Layout**|Choose the layout for the rendering|X||
-|**Switch Off color**|Default background color when the switch is Off. *This parameter is overriden by the parameter **Background color***||X|
-|**Switch On color**|Default background color when the switch is On. *This parameter is overriden by the parameter **Background color***||X|
-|**Allow to select a category**|Indicates if links must be added for each category to select/unselect all records|X||
-|**Allow to select a category**|Indicates if links must be added for each category to select/unselect all records|X||
-|**Display Search**|Indicates if a search bar must be displayed|||
-
-⚠️Even if Lookup.Simple type of column can be selected for filter, do not use it until it is supported by Microsoft and the bug that breaks dataset content is fixed.
-
-⚠️When using filter feature, the control won't disassociate related records that don't fit with the selected filter. It's your responsability to disassociate these records.
-
-## Custom Switch (deprecated)
-⚠️ This PCF won't receive any updates
-
-[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
-
-### Purpose
-The purpose of this control is to allow user to add switch for Two Options attribute and apply the color and shape they want to fit with the color of the company.
-
-### Samples
-
-![Screenshot](https://github.com/MscrmTools/PCF-Controls/blob/master/CustomSwitch/screenshots/capture.png?raw=true)
-
-### Configuration
-
-This is the list of parameters that can be set on the control
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**Attribute**|The attribute to display as a switch|X|X|
-|**Off color**|Color used for the switch background when the value is Off|||
-|**On color**|Color used for the switch background when the value is On|||
-|**Switch color**|Color used for the switch|||
-|**Layout**|Square or Round|X||
-|**Display label**|Indicates if selected option label must be displayed next to the switch||
-
-## Date as checkbox
-
-### Purpose
-As mentioned by MVP Gus Gonzalez in [this 2 minutes Tuesday video](https://www.youtube.com/watch?v=cuQIIAQPHbk), Two Options attribute could be replaced with Datetime attribute for some business needs. This PCF allows to transform a date time attribute in custom switch to keep the behavior of a checkbox while storing value as the current date time.
-
-### Samples
-![Screenshot](https://github.com/MscrmTools/PCF-Controls/raw/master/DateAsCheckbox/screenshots/dateAsCheckbox.gif?raw=true)
-
-### Configuration
-See documentation of [Custom Switch](#custom-switch). This is the same.
-
-## Simple Notification
-
-### Purpose
-Allows to display a notification or an helpful message to the user in a section. This should avoid to create static web resource to display information.
-
-### Samples
-![Capture d'écran 2025-04-24 095352](https://github.com/user-attachments/assets/8c817064-bc0a-4c6f-9394-f50295f2db95)
-
-
-### Configuration
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**Attribute**|The attribute to use to display the control|X|X|
-|**Notification type**|Type of notification|X||
-|**Message**|Message to display|X||
-|**Display a link?**|Indicates if an hypertext link must be added at the end of the message|||
-|**Link text**|Text to be used for the link|||
-|**Link**|Url to navigate to when clicking on the link||
-|**Title**|Notification title||
-|**Multi line**|Indicates if the notification can display message on multiple lines||
-
-## Action Button
-
-### Purpose
-Allows to display a button to perform an action. To allow developer to do anything they want from the form, this button simply copies the text of the action button or its identifier (see configuration) on the bound string attribute. If the bound attribute is a datetime, the current date is set as the attribute value. The developer needs to add an onChange event to this string or datetime attribute, check for the value of the attribute (can be the text or id of the action button for string attribute, current datetime for datetime attribute) and perform the action needed.
-
-### Samples
-![image](https://github.com/MscrmTools/PCF-Controls/assets/10774317/a166efea-412f-45d1-a59f-652e9b8d9980)
-
-
-
-Sample script to be implemented to execute an action when the button is clicked
+```bash
+cd ActionButton
+npm install
+npm run build
 ```
-function onChange(context){
-  let attribute = context.getEventSource();
-  let value = attribute.getValue();
-  if(value === "Run this!"){
-    Xrm.Navigation.openAlertDialog({text: "Action button has been triggered!"});
+
+### Package as Solution
+
+```bash
+cd ActionButtonSolution
+dotnet build /restore
+```
+
+The deployable solution zip will be generated at `ActionButtonSolution/bin/Debug/ActionButtonSolution.zip`.
+
+### Deploy
+
+1. Import `ActionButtonSolution.zip` into your Power Apps environment via **make.powerapps.com** > Solutions > Import
+2. On your form, select a text or datetime field → Add control → **ActionButton**
+3. Configure properties (see below)
+
+## Configuration
+
+|Parameter|Description|Required|Bound to an attribute|Additional info|
+|---------|-----------|:----:|:---:|------|
+|**Attribute**|The column to bind the control to|X|X||
+|**ActionText**|Text of the action button||| Static string or JSON for multi-language: `{"1033":"Send to DAS","1036":"Envoyer à DAS"}`|
+|**Button identifier**|An identifier of your choice for the button||||
+|**Send Identifier**|Whether to send the identifier or the label when clicked||||
+|**Always enable button**|Keep button enabled even when the form is disabled||||
+|**Background color**|Background color (default state)||||
+|**Border color**|Border color (default state)||||
+|**Color**|Text color (default state)||||
+|**Background color (hovered)**|Background color on hover||||
+|**Border color (hovered)**|Border color on hover||||
+|**Color (hovered)**|Text color on hover||||
+|**Background color (pressed)**|Background color when pressed||||
+|**Border color (pressed)**|Border color when pressed||||
+|**Color (pressed)**|Text color when pressed||||
+|**Icon**|Fluent UI icon name|||[Available icons](https://developer.microsoft.com/en-us/fluentui#/styles/web/icons#available-icons)|
+|**Tooltip**|Tooltip text shown on hover||||
+|**Width**|Button width|||Pixel or percentage (e.g., `200px`, `100%`, `auto`)|
+
+## Sample onChange Handler
+
+```javascript
+function onSendToDASChange(context) {
+  var attribute = context.getEventSource();
+  var value = attribute.getValue();
+
+  if (value === "Send to DAS") {
+    // Execute your business logic here
+    // e.g., call a Power Automate flow, Custom API, etc.
   }
-  // Clear the value and avoid to submit data
+
+  // Clear the value and prevent submission
   attribute.setValue(null);
   attribute.setSubmitMode("never");
 }
 ```
 
-### Configuration
+## Triggering an Email via Power Automate (Alternative)
 
-|Parameter|Description|Required|Bound to an attribute|Additional info|
-|---------|-----------|:----:|:---:|------|
-|**Attribute**|The attribute to use to display the control|X|X|| 
-|**ActionText**|Text of the action button|||Can be a static string or a json object with language id like {"1033":"Run this!","1036":"Exécute ça!"}|
-|**Button identifier**|An identifier of your choice for the button||||
-|**Send Identifier**|Indicates if the identifier or the label should be sent when clicking on the button||||
-|**Always enable button**|Indicates if button should be always enabled even when control or form is disabled||||
-|**Background color**|Background color for default display||||
-|**Border color**|Border color for default display||||
-|**Color**|Text color for default display||||
-|**Background color (hovered)**|Background color when the mouse hovers the button||||
-|**Border color (hovered)**|Border color when the mouse hovers the button||||
-|**Color (hovered)**|Text color when the mouse hovers the button||||
-|**Background color (pressed)**|Background color when the mouse clicks on the button||||
-|**Border color (pressed)**|Border color when the mouse clicks on the button||||
-|**Color (pressed)**|Text color when the mouse clicks on the button||||
-|**Icon**|Icon to use on the action button|||[Available icons](https://developer.microsoft.com/en-us/fluentui#/styles/web/icons#available-icons)|
-|**Tooltip**|Displays a tooltip above the button||||
-|**Width**|Width of the button. |||Can be in pixel or percentage|
+Instead of JavaScript, you can use a Power Automate flow:
 
-## Linear Slider with steps
+1. Create an **Automated cloud flow** with trigger: **When a row is modified** (Dataverse)
+2. Set **Filter columns** to your bound field's schema name
+3. Add a **Send an email** action with your desired recipients, subject, and body
 
-### Purpose
-Displays a linear slider that can be configured to allow only specific step. This control can also be configured to change the color of the slider, specify minimum and maximum values, and add text before and/or after the selected value.
-This control is an adaptation of the [TSLinearInputControl](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/sample-controls/linear-input-control) sample from Microsoft
+## Credits
 
-### Samples
-
-Slider with blue color, minimum 0, maximum 100, step by 5, prefix "Percentage: " and suffix " %" 
-
-![image](https://user-images.githubusercontent.com/10774317/116671071-d0549e00-a9a0-11eb-92d3-66825d1115ff.png)
-
-
-
-### Configuration
-
-|Parameter|Description|Required|Bound to an attribute|Additional info|
-|---------|-----------|:----:|:---:|------|
-|**Attribute**|The attribute to use to display the control|X|X|| 
-|**Minimum**|Minimum value for the slider control|X|||
-|**Maximum**|Maximum value for the slider control|X|||
-|**Step**|Step for the slider control|X|||
-|**Color**|Color of the slider||||
-|**Label prefix**|Define a text to be inserted before the value of the column||||
-|**Label suffix**|Define a text to be added after the value of the column||||
-|**Label position**|Position of the label under the slider|X||Left, Center or Right|
-
-
-## Year Dropdown
-
-[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
-
-### Purpose
-The purpose of this control is to allow user to select a year in a dropdown and store the result in a DateTime, Whole number or Single line of text column.
-
-### Samples
-
-![Screenshot](https://github.com/MscrmTools/PCF-Controls/blob/master/YearDropdown/screenshots/YearDropdown.gif?raw=true)
-
-### Configuration
-
-⚠️ Some users reported the requirement to configure this PCF in classic form editor to make it works as expected
-
-This is the list of parameters that can be set on the control
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**Target column**|The column bound to this control|X|X|
-|**Years before**|The number of years to add in the dropdown prior of current year|||
-|**Years after**|The number of years to add in the dropdown after of current year|||
-|**Default month**|Default month to generate the date when the target column is of type Date|||
-|**Default day**|Default day to generate the date when the target column is of type Date|||
-
-## Lookup as Dropdown
-
-[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
-
-### Purpose
-The purpose of this control is to display a Dropdown that allows to select records from an entity. Records displayed are the ones returned by the view configured for the Lookup column.
-
-This control has the following features:
-- Localized label (optional) : If the table targeted has columns for specific language, the control can show the label for the user selected language. For example, if the targeted table has columns new_name1033 (for US English), new_name1036 (for French) and you configure the control to have a mask set to new_name{lcid}, the control will now what label to display if the user has set his language to US English or French.
-![ltd](https://user-images.githubusercontent.com/10774317/207603166-1147b99c-2911-4013-b1a5-cc5d7f0468f5.gif)
-
-- Most recently used items (optional) : Allows to display a specific number of recent items. This feature is handled by the lookup column configuration (which is technically unsupported, ie. not exposed by the PCF SDK). The PCF configuration can be used to limit the number of items to display
-
-![image](https://user-images.githubusercontent.com/10774317/208404328-55be891b-d354-4d2f-8bac-7f953ab6e3b5.png)
-
-- Favorites (optional) : Allows to display some items first because they are the ones generally most used. Unique identifiers of items must be configured as a JSON array in the PCF 
-
-![image](https://user-images.githubusercontent.com/10774317/208404977-3048a540-dbbe-4d50-be95-0937fd89f4cd.png)
-
-- Create new record (optional) : You can configure the control so that it shows a "Add new" option to open a new form for the targeted table. It also requires that the user has at least basic privileges for Create and Read on the targeted table.
-![LookupToDropdown](https://user-images.githubusercontent.com/10774317/207386540-fefab6c1-f744-4e2c-b6ed-a01a6105ce9e.gif)
-
-- Lookup filtering (optional) : If the lookup is filtered by another lookup (and both targeted tables are in a 1N relationship), you can filter records available in the second dropdown, based on the first dropdown selected record.
-![ltd_filter](https://user-images.githubusercontent.com/10774317/207603990-ca9ab428-c8d5-4923-8aeb-cc1980290a15.gif)
-
-### Configuration
-
-⚠️ Some users reported the requirement to configure this PCF in classic form editor to make it works as expected
-
-This is the list of parameters that can be set on the control
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**Lookup column**|The column bound to this control|X|X|
-|**Filtering column**|Set the Lookup column to use to filter this control. Must be the same Lookup than the one defined in this control filter configuration|||
-|**Display mask**|The mask to find the localized column on the targeted table. Use {lcid} as a language token in the mask. It will be replace by the user language code|||
-|**Sort by display name**|Indicates if options must be sorted|X||
-|**Add new**|Indicates if "Add new" item must be added in the dropdown|X||
-|**Display Search bar**|Indicates if a search bar must be added on top of the dropdown|||
-|**Favorites**|List of records unique identifiers to show as favorites|||
-|**Number of recent items**|Indicates the number of recent items to display|||
-
-## Column Header
-
-[Download](https://github.com/MscrmTools/PCF-Controls/releases/)
-
-### Purpose
-The purpose of this control is to display a label that looks similar to a section label.
-
-### Samples
-
-<img width="758" height="214" alt="image" src="https://github.com/user-attachments/assets/10d938e9-9131-4af5-aec6-8e0552dbfb82" />
-
-### Configuration
-
-This is the list of parameters that can be set on the control
-
-|Parameter|Description|Required|Bound to an attribute|
-|---------|-----------|:----:|:---:|
-|**Label**|The label to display (can be a string or a json object : {"1033":"English header", "1036":"French header"})|X||
+Based on the [ActionButton PCF control](https://github.com/MscrmTools/PCF-Controls) by MscrmTools.
 
 
