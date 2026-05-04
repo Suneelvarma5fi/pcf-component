@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="MscrmToolsV2" constructor="FreezePointsV2" version="0.0.12" display-name-key="FreezePointsV2" description-key="Displays PSP elements and checkpoints as interactive timelines" control-type="virtual" >
+    <external-service-usage enabled="false">
+    </external-service-usage>
+
+    <!-- Bound to a text field on the order form (used as anchor for the control) -->
+    <property name="boundField" display-name-key="Bound Field" description-key="A text field on the order to anchor the control" of-type="SingleLine.Text" usage="bound" required="true" />
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/FreezePoints.css" order="1" />
+      <resx path="strings/FreezePoints.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+      <uses-feature name="WebAPI.retrieveMultipleRecords" required="true" />
+      <uses-feature name="WebAPI.createRecord" required="true" />
+      <uses-feature name="WebAPI.updateRecord" required="true" />
+      <uses-feature name="WebAPI.deleteRecord" required="true" />
+    </feature-usage>
+  </control>
+</manifest>
